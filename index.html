@@ -1,0 +1,371 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PATIL GROUP SOLUTION</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#ffffff;
+        --text:#0f172a;
+        --muted:#475569;
+        --primary:#2563eb;
+        --primary-600:#1d4ed8;
+        --surface:#f8fafc;
+        --card:#ffffff;
+        --border:#e2e8f0;
+        --shadow:0 2px 8px rgba(2,6,23,.06),0 12px 24px rgba(2,6,23,.06);
+        --radius:20px;
+      }
+      [data-theme="dark"]{
+        --bg:#0f172a;
+        --text:#f8fafc;
+        --muted:#94a3b8;
+        --primary:#2563eb;
+        --primary-600:#1d4ed8;
+        --surface:#1e293b;
+        --card:#1e293b;
+        --border:#334155;
+      }
+      *{box-sizing:border-box; margin:0; padding:0;}
+      html, body{font-family:Inter, sans-serif; scroll-behavior:smooth; background:var(--bg); color:var(--text);}
+      a{color:inherit; text-decoration:none;}
+      .container{max-width:1200px; margin:auto; padding:0 20px;}
+      .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.9rem 1.1rem; background:var(--primary); color:#fff; border-radius:14px; font-weight:600; border:1px solid var(--primary); cursor:pointer; transition:.2s;}
+      .btn:hover{background:var(--primary-600);}
+      .btn.ghost{background:transparent; color:var(--primary); border:1px solid var(--border);}
+      header{position:sticky; top:0; z-index:100; background:var(--card); border-bottom:1px solid var(--border); padding:10px 0;}
+      .nav{display:flex; align-items:center; justify-content:space-between;}
+      .brand{font-weight:800; font-size:1.2rem;}
+      .links{display:flex; gap:20px;}
+      .links a{font-weight:500; color:var(--muted);}
+      .links a.active, .links a:hover{color:var(--primary);}
+      .menu-btn{display:none;}
+      @media(max-width:980px){.links{display:none;} .menu-btn{display:block;}}
+      .hero{padding:80px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;}
+      .hero-text{flex:1; min-width:280px;}
+      .headline{font-size:clamp(2rem,5vw,3rem); font-weight:800;}
+      .sub{color:var(--muted); margin:12px 0;}
+      .hero-img{flex:1; min-width:280px; border-radius:20px; height:300px; background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;}
+      .features, .portfolio, .pricing, .testimonials{padding:60px 0;}
+      .grid{display:grid; gap:20px;}
+      .features-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+      .feature-card{background:var(--card); padding:20px; border-radius:var(--radius); box-shadow:var(--shadow); text-align:center;}
+      .portfolio-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+      .portfolio-item{border-radius:var(--radius); overflow:hidden; cursor:pointer; position:relative;}
+      .portfolio-item img{width:100%; height:200px; object-fit:cover; transition:.3s;}
+      .portfolio-item:hover img{transform:scale(1.05);}
+      .pricing-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));}
+      .pricing-card{background:var(--card); border-radius:var(--radius); padding:20px; text-align:center; box-shadow:var(--shadow);}
+      .testimonial-slider{display:flex; overflow-x:auto; gap:20px; padding:10px;}
+      .testimonial-card{min-width:250px; background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);}
+      /* Chatbot */
+      #chatbot{position:fixed; bottom:20px; right:20px; z-index:999;}
+      #chatbot-circle{width:60px;height:60px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-content:center;font-size:24px;cursor:pointer;box-shadow:var(--shadow);}
+      #chatbot-box{display:none; flex-direction:column;width:300px;height:400px;background:var(--card);border:1px solid var(--border);border-radius:16px;position:absolute;bottom:70px;right:0;}
+      #chatbot-header{background:var(--primary);color:#fff;padding:10px;display:flex;justify-content:space-between;align-items:center;}
+      #chatbot-messages{flex:1;padding:10px;overflow-y:auto;}
+      #chatbot-input-area{display:flex;border-top:1px solid var(--border);}
+      #chatbot-input{flex:1;border:none;padding:10px;outline:none;}
+      #chatbot-send{width:50px;border:none;background:var(--primary);color:#fff;cursor:pointer;}
+      .message.user{color:var(--text); margin:6px 0;}
+      .message.bot{color:var(--primary); margin:6px 0;}
+      /* Dark mode button */
+      #darkToggle{position:fixed; bottom:20px; left:20px; padding:10px 14px; border:none; border-radius:50%; background:var(--primary); color:#fff; cursor:pointer; box-shadow:var(--shadow);}
+      /* Back to top */
+      #backTop{position:fixed; bottom:90px; right:20px; padding:10px 14px; background:var(--primary); color:#fff; border:none; border-radius:50%; cursor:pointer; display:none; box-shadow:var(--shadow);}
+      #chatbot-quick-replies {
+    display: flex;
+    flex-direction: column; /* vertical stacking */
+    gap: 8px;
+    padding: 6px;
+    position: absolute;
+    left: -150px; /* adjust distance from chatbot box */
+    top: 50px;
+    width: 140px; /* optional width */
+    .portfolio-item {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .hero-img {
+    flex: 1;
+    min-width: 280px;
+    border-radius: 20px;
+    height: 300px;
+    background: var(--surface); /* plain background instead of image */
+  }
+
+  .portfolio-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .portfolio-item:hover img {
+    transform: scale(1.05);
+  }
+
+  .portfolio-item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .portfolio-item:hover .overlay {
+    opacity: 1;
+  }
+
+  }
+    </style>
+  </head>
+  <body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">PATIL GROUP SOLUTION</div>
+      <nav class="links">
+        <a href="#features" class="active">Features</a>
+        <a href="#portfolio">Work</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-btn">☰</button>
+    </div>
+  </header>
+
+  <section class="hero container">
+    <div class="hero-text">
+      <h1 class="headline">We <span id="typewriter"></span></h1>
+      <p class="sub">Modern, fast, and responsive websites & software solutions.</p>
+      <button class="btn">Get Started</button>
+      <button class="btn ghost">See Work</button>
+    </div>
+    <div class="hero-img"></div>
+  </section>
+
+  <section id="features" class="features container">
+    <h2>Features</h2>
+    <div class="grid features-grid">
+      <div class="feature-card">⚡ Fast & Lightweight</div>
+      <div class="feature-card">📱 Responsive Design</div>
+      <div class="feature-card">🎨 Easy to Brand</div>
+    </div>
+  </section>
+
+  <section id="portfolio" class="portfolio container">
+    <h2>Our Work</h2>
+    <div class="grid portfolio-grid">
+      <!-- Website Project -->
+      <div class="portfolio-item">
+        <div class="overlay">Website Project</div>
+      </div>
+      <!-- App Project -->
+      <div class="portfolio-item">
+        <div class="overlay">App Project</div>
+      </div>
+      <!-- Design Project -->
+      <div class="portfolio-item">
+        <div class="overlay">Design Project</div>
+      </div>
+      <!-- Branding Project -->
+      <div class="portfolio-item">
+        <div class="overlay">Branding Project</div>
+      </div>
+      <!-- Marketing Project -->
+      <div class="portfolio-item">
+        <div class="overlay">Marketing Project</div>
+      </div>
+      <!-- Software Project -->
+      <div class="portfolio-item">
+        <div class="overlay">Software Project</div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="pricing" class="pricing container">
+    <h2>Pricing</h2>
+    <div class="grid pricing-grid">
+      <div class="pricing-card">
+        <h3>Basic</h3><p>$199</p><button class="btn">Choose Plan</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Pro</h3><p>$399</p><button class="btn">Choose Plan</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Enterprise</h3><p>$799</p><button class="btn">Choose Plan</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="testimonials container">
+    <h2>Testimonials</h2>
+    <div class="testimonial-slider">
+      <div class="testimonial-card">"Great service!" - Client A</div>
+      <div class="testimonial-card">"Amazing design!" - Client B</div>
+      <div class="testimonial-card">"Highly recommended!" - Client C</div>
+    </div>
+  </section>
+  <section id="contact" class="container" style="padding:60px 0;">
+    <h2>Contact Us</h2>
+    <p style="color:var(--muted); margin-bottom:20px;">Fill out the form below and we'll get back to you as soon as possible.</p>
+    <form id="contactForm" style="display:grid; gap:15px; max-width:600px;">
+      <input type="text" name="name" placeholder="Full Name" required style="padding:12px; border:1px solid var(--border); border-radius:12px;"/>
+      <input type="email" name="email" placeholder="Email Address" required style="padding:12px; border:1px solid var(--border); border-radius:12px;"/>
+      <input type="tel" name="phone" placeholder="Phone Number" required pattern="[0-9]{10}" style="padding:12px; border:1px solid var(--border); border-radius:12px;"/>
+      <input type="text" name="company" placeholder="Company / Organization" required style="padding:12px; border:1px solid var(--border); border-radius:12px;"/>
+      <input type="text" name="subject" placeholder="Subject" required style="padding:12px; border:1px solid var(--border); border-radius:12px;"/>
+      <textarea name="message" placeholder="Your Message" required rows="5" style="padding:12px; border:1px solid var(--border); border-radius:12px;"></textarea>
+      <label style="display:flex; align-items:center; gap:8px; font-size:14px;">
+        <input type="checkbox" name="agree" required/>
+        I agree to the <a href="#" style="color:var(--primary)">terms and conditions</a>
+      </label>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Chatbot -->
+  <div id="chatbot">
+    <div id="chatbot-circle">🤖</div>
+    <div id="chatbot-box">
+      <div id="chatbot-header"><span>AI Chatbot</span><button id="chatbot-close">✖</button></div>
+      <div id="chatbot-messages"></div>
+      <div id="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Type a message..." />
+        <button id="chatbot-send">➤</button>
+      </div>
+      <div id="chatbot-quick-replies" style="display:flex;gap:6px;padding:6px;"></div>
+    </div>
+  </div>
+
+  <button id="darkToggle">🌓</button>
+  <button id="backTop">⬆</button>
+
+  <script>
+    // Typewriter effect
+    const words = ["Build websites.", "Launch apps.", "Grow your business."];
+    let i=0, j=0, currentWord='', isDeleting=false;
+    const typeEl = document.getElementById('typewriter');
+    function type(){
+      if(!isDeleting && j <= words[i].length){ currentWord = words[i].substring(0,j++); }
+      else if(isDeleting && j >= 0){ currentWord = words[i].substring(0,j--); }
+      typeEl.textContent = currentWord;
+      if(j === words[i].length){ isDeleting=true; setTimeout(type,1000); return;}
+      if(j === 0 && isDeleting){ isDeleting=false; i=(i+1)%words.length;}
+      setTimeout(type, isDeleting?50:150);
+    }
+    type();
+
+    // Dark Mode
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', ()=>{
+      document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? '' : 'dark';
+    });
+
+    // Back to top
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', ()=>{ backTop.style.display = window.scrollY>300?'block':'none'; });
+    backTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    // Chatbot
+    const chatbotCircle=document.getElementById('chatbot-circle');
+    const chatbotBox=document.getElementById('chatbot-box');
+    const chatbotClose=document.getElementById('chatbot-close');
+    const chatbotInput=document.getElementById('chatbot-input');
+    const chatbotMessages=document.getElementById('chatbot-messages');
+    const chatbotSend=document.getElementById('chatbot-send');
+    const faq={
+      "hello":"Hello! Welcome to PATIL GROUP SOLUTION! ✅",
+      "services":"We provide web development, software, AI chatbots, IT consulting. ✅",
+      "pricing":"Pricing depends on your project. Contact us for quote. ✅",
+      "contact":"Email: info@patilgroupsolution.com, Call: +91-1234567890 ✅",
+      "about":"We specialize in modern, responsive websites. ✅"
+    };
+    const responses=["Interesting!","Tell me more!","I see!","Can you explain?"];
+    chatbotCircle.addEventListener('click', ()=>chatbotBox.style.display='flex');
+    chatbotClose.addEventListener('click', ()=>chatbotBox.style.display='none');
+    chatbotSend.addEventListener('click',sendMessage);
+    chatbotInput.addEventListener('keypress', e=>{if(e.key==='Enter') sendMessage();});
+    function botReply(msg){
+      const botMsg=document.createElement('div'); botMsg.className='message bot'; botMsg.textContent='Bot typing...';
+      chatbotMessages.appendChild(botMsg); chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+      setTimeout(()=>{ botMsg.innerHTML=msg+' <span style="color:green;font-weight:bold;">✔️</span>'; chatbotMessages.scrollTop=chatbotMessages.scrollHeight; },800);
+    }
+    function sendMessage(){
+      const msg=chatbotInput.value.trim(); if(!msg)return;
+      const userMsg=document.createElement('div'); userMsg.className='message user'; userMsg.textContent="You: "+msg+' ✅';
+      chatbotMessages.appendChild(userMsg); chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+      chatbotInput.value='';
+      const lower=msg.toLowerCase();
+      if(faq[lower]){ botReply(faq[lower]); return; }
+      botReply(responses[Math.floor(Math.random()*responses.length)]);
+    }
+
+    // Quick replies
+  // Updated Quick replies with adjectives/keywords
+  const quicks = [
+    "Hello 👋",
+    "About Us ℹ️",
+    "Our Services 💻",
+    "Pricing Plans 💰",
+    "Portfolio/Work 🎨",
+    "Contact Info 📞",
+    "Support 🛠️"
+  ];
+
+  const quickContainer = document.getElementById('chatbot-quick-replies');
+  quicks.forEach(q => {
+    const btn = document.createElement('button');
+    btn.textContent = q;
+    btn.className = 'btn ghost';
+    btn.addEventListener('click', () => {
+      // Map button text to FAQ key
+      let key = q.split(' ')[0].toLowerCase(); // take first word
+      chatbotInput.value = key;
+      sendMessage();
+    });
+    quickContainer.appendChild(btn);
+  });
+
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Thank you! Your message has been submitted successfully.');
+    this.reset();
+    // Portfolio random images
+  const topics = ["website","app","design","branding","marketing","software"];
+  const portfolioItems = document.querySelectorAll(".portfolio-item");
+
+  portfolioItems.forEach((item, index) => {
+    const img = document.createElement("img");
+    // Use a random topic from the array
+    const topic = topics[Math.floor(Math.random() * topics.length)];
+    // Add a random query to force new image every load
+    img.src = `https://source.unsplash.com/400x300/?${topic}&sig=${Math.floor(Math.random()*1000)}`;
+    img.alt = `Project ${index+1}`;
+    item.prepend(img); // insert the image inside portfolio-item
+  });
+
+  });
+  </script>
+  </body>
+  </html>
